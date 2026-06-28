@@ -1,7 +1,0 @@
-score,Model,AUC,AUC_CI_lo,AUC_CI_hi,TPR@FPR5%,Best_F1
-max-channel,TL,0.9846,0.9685,0.9962,0.94,0.9552
-max-channel,OldModel,0.9178,0.8739,0.9519,0.65,0.8597
-max-channel,FromScratch,0.9174,0.8745,0.9505,0.66,0.8558
-mean-channel,TL,0.8259,0.7682,0.8744,0.34,0.7724
-mean-channel,OldModel,0.9117,0.8737,0.9452,0.62,0.8411
-mean-channel,FromScratch,0.6214,0.5423,0.693,0.09,0.7031
