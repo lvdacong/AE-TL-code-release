@@ -1,0 +1,19 @@
+﻿场景,模型,评分,噪声设置,AUC,AUC_CI_lo,AUC_CI_hi,TPR@FPR5%,Best_F1
+结构修复,TL,max-channel MAE,clean,0.9465,0.9104,0.9763,0.85,0.8995
+结构修复,TL,max-channel MAE,5% per-channel train-std Gaussian noise,0.8495,0.7884,0.9054,0.67,0.7912
+结构修复,未适应源域模型,max-channel MAE,clean,0.8162,0.7582,0.8727,0.6,0.7407
+结构修复,未适应源域模型,max-channel MAE,5% per-channel train-std Gaussian noise,0.7997,0.7378,0.8615,0.59,0.7375
+结构修复,随机初始化基线,max-channel MAE,clean,0.8848,0.8363,0.9283,0.67,0.8155
+结构修复,随机初始化基线,max-channel MAE,5% per-channel train-std Gaussian noise,0.8365,0.7746,0.8942,0.66,0.8
+传感器迁移,TL,max-channel MAE,clean,0.9898,0.9759,0.9985,0.96,0.9746
+传感器迁移,TL,max-channel MAE,5% per-channel train-std Gaussian noise,0.944,0.9095,0.9717,0.83,0.9022
+传感器迁移,未适应源域模型,max-channel MAE,clean,0.6704,0.5942,0.7387,0.12,0.7273
+传感器迁移,未适应源域模型,max-channel MAE,5% per-channel train-std Gaussian noise,0.6684,0.5907,0.7381,0.12,0.7203
+传感器迁移,随机初始化基线,max-channel MAE,clean,0.9296,0.8924,0.9602,0.73,0.8696
+传感器迁移,随机初始化基线,max-channel MAE,5% per-channel train-std Gaussian noise,0.9127,0.8698,0.9498,0.69,0.8491
+传感器漂移,TL,max-channel MAE,clean,0.9926,0.9812,0.9994,0.97,0.9749
+传感器漂移,TL,max-channel MAE,5% per-channel train-std Gaussian noise,0.9484,0.9128,0.9769,0.82,0.8913
+传感器漂移,未适应源域模型,max-channel MAE,clean,0.9743,0.9533,0.99,0.85,0.9254
+传感器漂移,未适应源域模型,max-channel MAE,5% per-channel train-std Gaussian noise,0.9493,0.9161,0.976,0.84,0.8947
+传感器漂移,随机初始化基线,max-channel MAE,clean,0.9138,0.8707,0.9477,0.62,0.836
+传感器漂移,随机初始化基线,max-channel MAE,5% per-channel train-std Gaussian noise,0.884,0.8297,0.9297,0.62,0.828

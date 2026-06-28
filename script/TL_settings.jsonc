@@ -1,0 +1,189 @@
+{
+  // 详细说明见 TL_settings_doc.md
+  // v4.2 升级版：三场景等间距6档(含0对照)×4档data_size统一消融框架
+
+  // ========================================
+  // 区域定义（原始 + BFS自动生成）
+  // ========================================
+  "region_by_elem_ID": {
+    // 原始预定义区域（用于损伤位置）
+    "region_1": [67623, 120370, 67636, 120357, 120344, 120331],
+    // BFS自动生成的嵌套修补区域（seed=72048, Y=4000平面）
+    // N4 ⊂ N8 ⊂ N12 ⊂ N16 ⊂ N20
+    "repair_N4":  [72048, 72049, 23586, 72042],
+    "repair_N8":  [72048, 72049, 23586, 72042, 72054, 72043, 72055, 72050],
+    "repair_N12": [72048, 72049, 23586, 72042, 72054, 72043, 72055, 72050, 23585, 23587, 23582, 72036],
+    "repair_N16": [72048, 72049, 23586, 72042, 72054, 72043, 72055, 72050, 23585, 23587, 23582, 72036, 106813, 72044, 72037, 72056],
+    "repair_N20": [72048, 72049, 23586, 72042, 72054, 72043, 72055, 72050, 23585, 23587, 23582, 72036, 106813, 72044, 72037, 72056, 106812, 72051, 23516, 23581],
+    // 双圆形损伤区域（BFS seed→8元素，Y=4000平面）
+    "damage_circle_A": [126920, 126921, 23228, 126916, 124121, 23227, 126917, 126922],
+    "damage_circle_B": [128846, 23896, 128842, 123095, 128847, 23963, 23895, 23892]
+  },
+
+  // ========================================
+  // FEM模型定义
+  // ========================================
+  "FEM_models": {
+    "health": {},
+
+    // --- DR difficulty=4: 4单元修补 ---
+    "damage_repaired_4": {
+      "local_change": {"local_region": "repair_N4", "thickness": 15.0}
+    },
+    "second_damage_4": {
+      "local_change": [
+        {"local_region": "repair_N4", "thickness": 15.0},
+        {"local_region": "region_1", "thickness": 3.0}
+      ]
+    },
+
+    // --- DR difficulty=8: 8单元修补 ---
+    "damage_repaired_8": {
+      "local_change": {"local_region": "repair_N8", "thickness": 15.0}
+    },
+    "second_damage_8": {
+      "local_change": [
+        {"local_region": "repair_N8", "thickness": 15.0},
+        {"local_region": "region_1", "thickness": 3.0}
+      ]
+    },
+
+    // --- DR difficulty=12: 12单元修补（tl_comparison典型值）---
+    "damage_repaired_12": {
+      "local_change": {"local_region": "repair_N12", "thickness": 15.0}
+    },
+    "second_damage_12": {
+      "local_change": [
+        {"local_region": "repair_N12", "thickness": 15.0},
+        {"local_region": "region_1", "thickness": 3.0}
+      ]
+    },
+
+    // --- DR difficulty=16: 16单元修补 ---
+    "damage_repaired_16": {
+      "local_change": {"local_region": "repair_N16", "thickness": 15.0}
+    },
+    "second_damage_16": {
+      "local_change": [
+        {"local_region": "repair_N16", "thickness": 15.0},
+        {"local_region": "region_1", "thickness": 3.0}
+      ]
+    },
+
+    // --- DR difficulty=20: 20单元修补 ---
+    "damage_repaired_20": {
+      "local_change": {"local_region": "repair_N20", "thickness": 15.0}
+    },
+    "second_damage_20": {
+      "local_change": [
+        {"local_region": "repair_N20", "thickness": 15.0},
+        {"local_region": "region_1", "thickness": 3.0}
+      ]
+    },
+
+    // --- DR difficulty=0: 无修补 ---
+    // damage_repaired_0 不需要（=health）
+    // second_damage_0: 仅region_1损伤，无修补
+    "second_damage_0": {
+      "local_change": {"local_region": "region_1", "thickness": 3.0}
+    },
+
+    // --- 保留旧模型（兼容性）---
+    "first_damage": {
+      "local_change": [
+        {"local_region": "region_1", "thickness": 3.0}
+      ]
+    },
+
+    // --- 双圆形损伤（基线验证用）---
+    "two_circle_damage": {
+      "local_change": [
+        {"local_region": "damage_circle_A", "thickness": 3.0},
+        {"local_region": "damage_circle_B", "thickness": 3.0}
+      ]
+    }
+  },
+
+  // ========================================
+  // 仿真数据量
+  // ========================================
+  "simulation_counts": {
+    "health": 2000,
+    "first_damage": 100,
+    // DR各难度的仿真数据量
+    "damage_repaired_4": 500,
+    "damage_repaired_8": 500,
+    "damage_repaired_12": 500,
+    "damage_repaired_16": 500,
+    "damage_repaired_20": 500,
+    "second_damage_0": 100,
+    "second_damage_4": 100,
+    "second_damage_8": 100,
+    "second_damage_12": 100,
+    "second_damage_16": 100,
+    "second_damage_20": 100,
+    "two_circle_damage": 100
+  },
+
+  // ========================================
+  // 实验场景配置
+  // ========================================
+  "cases": [
+    {
+      "name": "Damage_Repaired",
+      "description": "损伤修补迁移学习场景 — 修补单元数 [0,4,8,12,16,20] 等间距消融",
+      "old_baseline": "health",
+      "new_baseline": "damage_repaired_12",
+      "damage_test": "second_damage_12",
+      "TL_ablation": [
+        {"freeze_strategy": ["none", "bottom", "encoder"], "trainset_size": 400}
+      ],
+      "TL_performance": {"freeze_strategy": "none", "trainset_size": 400},
+      "difficulty_ablation": {
+        "difficulty_param": "n_repair",
+        "difficulty_values": [0, 4, 8, 12, 16, 20],
+        "data_sizes": [50, 100, 200, 400],
+        "typical_difficulty": 12
+      }
+    },
+    {
+      "name": "Sensor_Offset",
+      "description": "测点偏移迁移学习场景 — 偏移测点数 [0,1,2,3,4,5] 等间距消融",
+      "offset": [[2]],
+      "offset_count": [0, 1, 2, 3, 4, 5],
+      "old_baseline": "health",
+      "new_baseline": "health",
+      "damage_test": "first_damage",
+      "TL_ablation": [
+        {"freeze_strategy": "none", "trainset_size": [100, 200, 400, 600, 900, 1300, 1900]}
+      ],
+      "TL_performance": {"freeze_strategy": "none", "trainset_size": 400},
+      "difficulty_ablation": {
+        "difficulty_param": "offset_count",
+        "difficulty_values": [0, 1, 2, 3, 4, 5],
+        "data_sizes": [50, 100, 200, 400],
+        "typical_difficulty": 1
+      }
+    },
+    {
+      "name": "Sensor_Drift",
+      "description": "全通道温度漂移迁移学习场景 — 漂移比例 [0,0.05,...,0.25] 等间距消融",
+      "drift": "all",
+      "drift_type": "scale",
+      "drift_ratio": 0.1,
+      "old_baseline": "health",
+      "new_baseline": "health",
+      "damage_test": "first_damage",
+      "TL_ablation": [
+        {"freeze_strategy": "none", "trainset_size": [50, 100, 200, 400], "drift_ratio": [0, 0.05, 0.1, 0.15, 0.2, 0.25]}
+      ],
+      "TL_performance": {"freeze_strategy": "none", "trainset_size": 400},
+      "difficulty_ablation": {
+        "difficulty_param": "drift_ratio",
+        "difficulty_values": [0, 0.05, 0.10, 0.15, 0.20, 0.25],
+        "data_sizes": [50, 100, 200, 400],
+        "typical_difficulty": 0.10
+      }
+    }
+  ]
+}

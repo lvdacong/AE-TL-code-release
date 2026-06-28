@@ -1,0 +1,23 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# Large or generated research outputs
+script/AD_preprocess_datasets_output/
+script/AE_model_train_and_detect_output/
+script/AC_convert_and_extract_output/
+script/AF_timespace_heatmap_audit_output/
+script/AG_statistical_distribution_audit_output/
+script/AH_local_neighborhood_ablation_output/
+script/AI_innovation_literature_review_output/
+*.cae
+*.odb
+*.inp
+*.pth
+*.pt
+*.npz
+*.npy
+*.csv.tmp

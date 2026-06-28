@@ -1,0 +1,60 @@
+{
+  "version": "v2_max_diff",
+  "scheme": "max_stress_difference_3hop",
+  "n_hop": 3,
+  "diff_metric": "mae",
+  "scenario": "Sensor_Offset",
+  "rationale": "Selected from 32 high-gradient candidates (std > 2.0) by searching 3-hop FEM neighbors for maximum stress-time-series difference. The 5 origins span distinct element ID bands (~3000, ~21000, ~64000, ~76000, ~103000) for physical diversity. Ordered by ascending stress_diff for monotonic difficulty.",
+  "pairs_ordered_by_difficulty": [
+    {
+      "n_o_step": 1,
+      "channel_idx": 9,
+      "origin_id": 3389,
+      "target_id": 3470,
+      "expected_stress_diff": 2.0009,
+      "origin_mean": 3.8839,
+      "origin_std": 2.6758,
+      "comment": "Element band ~3000"
+    },
+    {
+      "n_o_step": 2,
+      "channel_idx": 171,
+      "origin_id": 103369,
+      "target_id": 108379,
+      "expected_stress_diff": 2.0073,
+      "origin_mean": 3.8881,
+      "origin_std": 2.6645,
+      "comment": "Element band ~103000"
+    },
+    {
+      "n_o_step": 3,
+      "channel_idx": 55,
+      "origin_id": 21983,
+      "target_id": 4694,
+      "expected_stress_diff": 2.0684,
+      "origin_mean": 3.8217,
+      "origin_std": 2.4971,
+      "comment": "Element band ~21000"
+    },
+    {
+      "n_o_step": 4,
+      "channel_idx": 99,
+      "origin_id": 64154,
+      "target_id": 22177,
+      "expected_stress_diff": 2.1433,
+      "origin_mean": 3.7513,
+      "origin_std": 2.4830,
+      "comment": "Element band ~64000"
+    },
+    {
+      "n_o_step": 5,
+      "channel_idx": 132,
+      "origin_id": 76131,
+      "target_id": 76099,
+      "expected_stress_diff": 2.1466,
+      "origin_mean": 3.7659,
+      "origin_std": 2.4786,
+      "comment": "Element band ~76000"
+    }
+  ]
+}

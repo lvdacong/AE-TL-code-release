@@ -1,0 +1,33 @@
+{
+  "scenario_name": "Sensor_Offset",
+  "output_subdir": "independent_offset_count4_medium",
+  "description": "Independent SO test: offset_count=4_medium, fixed final config, N=400",
+  "new_data_folder": "health_offset_count_4_2000_medium",
+  "test_damage_folder": "first_damage_offset_count_4_100_medium",
+  "train_samples": 400,
+  "freeze_strategy": "none",
+  "seed": 42,
+  "training_overrides": {
+    "l2_sp_alpha": 0.0,
+    "encoder_lr": 1e-05
+  },
+  "detection_overrides": {
+    "render_3d": false,
+    "inp_file_path": "C:/SHM_abaqus_models/first_damage.inp"
+  },
+  "raw_output_dir": "C:\\data\\AE-TL\\script\\AE_model_train_and_detect_output\\Sensor_Offset\\independent_offset_count4_medium",
+  "raw_output_dir_exists_when_written": true,
+  "review_writer_script": "C:\\data\\AE-TL\\用于查看的中文版\\复核脚本\\独立偏移测试复核.py",
+  "review_rerun_requested": true,
+  "python_executable": "C:\\Users\\ASUS\\AppData\\Local\\Programs\\Python\\Python39\\python.exe",
+  "written_at_local": "2026-06-26T16:02:18+08:00",
+  "raw_files_copied": [
+    "detection_metrics_max.csv",
+    "detection_metrics.csv",
+    "TL_training_losses.csv",
+    "fromscratch_training_losses.csv",
+    "training_curve_comparison.png",
+    "roc_comparison_merged.png",
+    "comparison_residuals.png"
+  ]
+}
