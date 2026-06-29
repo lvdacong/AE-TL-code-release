@@ -23,3 +23,50 @@ Manuscript files, generated LaTeX tables, Chinese review-package materials, PDFs
 Most analysis scripts use the packages listed in `requirements.txt`. Abaqus-dependent scripts require a local Abaqus Python environment and the original finite-element model files. After the requested finite-element data, preprocessed arrays, and checkpoints are placed under the expected output folders, the configured workflow can regenerate the study outputs.
 
 大多数分析脚本使用 `requirements.txt` 中列出的 Python 依赖；依赖 Abaqus 的脚本需要本机 Abaqus Python 环境及原始有限元模型文件。将按请求获取的有限元数据、预处理数组和检查点放回对应输出目录后，可按配置流程重新生成研究输出。
+
+## Command Map For Review / 审阅复现命令索引
+
+Run commands from the repository root unless the command explicitly changes into `script/`. Abaqus commands require the original FE model files and a licensed local Abaqus installation; the other commands use the Python packages in `requirements.txt`.
+
+除特别说明进入 `script/` 目录的命令外，以下命令均从仓库根目录执行。Abaqus 命令需要原始有限元模型文件和本机授权 Abaqus；其他命令使用 `requirements.txt` 中的 Python 依赖。
+
+```powershell
+python -m pip install -r requirements.txt
+
+# Finite-element model and simulation hooks
+cd script
+python A0_generate_repair_regions.py
+abaqus cae noGUI=AA_create_damage_cae.py
+abaqus cae noGUI=AB_generate_simulation_data.py
+python AB_generate_simulation_data_postprocess_auxiliary.py
+
+# Sensor layout conversion and preprocessing
+python AC_convert_and_extract.py
+python AD_preprocess_datasets.py
+
+# Core AE training and scenario evaluation
+python AE_run_pretrain.py
+python AE_run_dr_tl_comparison.py
+python AE_run_so_sd_tl_comparison.py
+python AE_run_tl_comparison_standard.py
+python AE_run_baseline_validation.py
+python AE_run_optimizer_study.py
+python AE_run_so_difflr_ablation.py
+python AE_run_sequential_adaptation.py
+python AE_run_sequential_analysis.py
+
+# Figure and summary regeneration
+python AE_gen_roc_and_summary.py
+python AE_gen_scenario_figures.py
+python AE_gen_revision_comparison_figures.py
+python AE_gen_lr_tuning_figure.py
+python AE_gen_difflr_comparison.py
+python AE_gen_difflr_roc.py
+python AE_gen_baseline_3d_figures.py
+```
+
+## Configuration And Random Seeds / 配置与随机种子
+
+The main configuration is `script/TL_settings.jsonc`; field notes are in `script/TL_settings_doc.md`. Random seeds are fixed inside the experiment scripts and helper modules, primarily with seed `42` for model training/evaluation and the documented region seed `72048` for repair-region generation.
+
+主配置文件为 `script/TL_settings.jsonc`，字段说明见 `script/TL_settings_doc.md`。随机种子固定在实验脚本和辅助模块中：模型训练与评估主要使用 `42`，修补区域生成使用文档化的区域种子 `72048`。
