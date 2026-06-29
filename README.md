@@ -1,10 +1,8 @@
-# AE-TL code release / AE-TL 代码发布包
+# AE-TL Code Release
 
 This repository contains the core code package for the AE-TL ship structural damage detection study.
 
-本仓库为 AE-TL 船舶结构损伤检测研究的核心代码发布包。
-
-## Contents / 内容
+## Contents
 
 - `script/`: finite-element data generation hooks, preprocessing, AE training, transfer-learning comparisons, ablations, evaluation, plotting, and configuration scripts.
 - `script/TL_settings.jsonc`: main experiment configuration.
@@ -12,27 +10,27 @@ This repository contains the core code package for the AE-TL ship structural dam
 - `requirements.txt`: Python package requirements for non-Abaqus analysis scripts.
 - `CODE_AVAILABILITY.md`: scope, data boundary, and reproduction notes.
 
-## Boundary / 边界
+## Boundary
 
 Manuscript files, generated LaTeX tables, Chinese review-package materials, PDFs, review-stage result CSV files, full finite-element model files, raw simulation outputs, trained checkpoints, generated figures, and large intermediate arrays are intentionally not included because of size and sharing constraints.
 
-本文手稿、生成的 LaTeX 表格、中文审阅包材料、PDF、审阅阶段结果 CSV、完整有限元模型文件、原始仿真输出、训练检查点、生成图件和大型中间数组因体量与共享条件限制不纳入本仓库。
+The scripts are provided so the reported outputs can be regenerated after the required finite-element data, preprocessed arrays, saved model outputs, or review CSV outputs are restored to the expected folders.
 
-## Reproduction / 复现
+## Environment
 
-Most analysis scripts use the packages listed in `requirements.txt`. Abaqus-dependent scripts require a local Abaqus Python environment and the original finite-element model files. After the requested finite-element data, preprocessed arrays, and checkpoints are placed under the expected output folders, the configured workflow can regenerate the study outputs.
-
-大多数分析脚本使用 `requirements.txt` 中列出的 Python 依赖；依赖 Abaqus 的脚本需要本机 Abaqus Python 环境及原始有限元模型文件。将按请求获取的有限元数据、预处理数组和检查点放回对应输出目录后，可按配置流程重新生成研究输出。
-
-## Command Map For Review / 审阅复现命令索引
-
-Run commands from the repository root unless the command explicitly changes into `script/`. Abaqus commands require the original FE model files and a licensed local Abaqus installation; the other commands use the Python packages in `requirements.txt`.
-
-除特别说明进入 `script/` 目录的命令外，以下命令均从仓库根目录执行。Abaqus 命令需要原始有限元模型文件和本机授权 Abaqus；其他命令使用 `requirements.txt` 中的 Python 依赖。
+Most analysis scripts use the packages listed in `requirements.txt`.
 
 ```powershell
 python -m pip install -r requirements.txt
+```
 
+Abaqus-dependent scripts require a licensed local Abaqus installation and the original finite-element model files.
+
+## Command Map
+
+Run commands from the repository root unless the command explicitly changes into `script/`.
+
+```powershell
 # Finite-element model and simulation hooks
 cd script
 python A0_generate_repair_regions.py
@@ -55,9 +53,10 @@ python AE_run_so_difflr_ablation.py
 python AE_run_sequential_adaptation.py
 python AE_run_sequential_analysis.py
 
-# Figure and summary regeneration
+# Figure, table, and manuscript-number regeneration
 python AE_gen_roc_and_summary.py
 python AE_gen_scenario_figures.py
+python AE_gen_paper_macros.py
 python AE_gen_revision_comparison_figures.py
 python AE_gen_lr_tuning_figure.py
 python AE_gen_difflr_comparison.py
@@ -65,8 +64,44 @@ python AE_gen_difflr_roc.py
 python AE_gen_baseline_3d_figures.py
 ```
 
-## Configuration And Random Seeds / 配置与随机种子
+## Synthesis Tables 15-17 And Figures 26-28
 
-The main configuration is `script/TL_settings.jsonc`; field notes are in `script/TL_settings_doc.md`. Random seeds are fixed inside the experiment scripts and helper modules, primarily with seed `42` for model training/evaluation and the documented region seed `72048` for repair-region generation.
+After the experiment outputs are restored under `script/AE_model_train_and_detect_output/`, run:
 
-主配置文件为 `script/TL_settings.jsonc`，字段说明见 `script/TL_settings_doc.md`。随机种子固定在实验脚本和辅助模块中：模型训练与评估主要使用 `42`，修补区域生成使用文档化的区域种子 `72048`。
+```powershell
+cd script
+python AE_gen_roc_and_summary.py
+python AE_gen_paper_macros.py
+```
+
+Expected outputs:
+
+- Table 15 body: `paper_TL/generated/tab_detection_metrics_body_en.tex`
+- Figure 26 source image: `script/AE_model_train_and_detect_output/summary_bar_chart.png`
+
+After the review-stage non-neural baseline and noise-sensitivity CSV files are restored under the review-output folder used by the scripts, run:
+
+```powershell
+python script/review_checks/轻量基线复核.py
+python script/review_checks/AE_TL噪声敏感性复核.py
+cd script
+python AE_gen_revision_comparison_figures.py
+```
+
+Expected outputs:
+
+- Table 16 source CSV: `用于查看的中文版/轻量基线复核.csv`
+- Table 16 audit CSV: `用于查看的中文版/轻量基线审计日志.csv`
+- Table 17 source CSV: `用于查看的中文版/AE_TL噪声敏感性复核.csv`
+- Figure 27 source image: `script/AE_model_train_and_detect_output/fig_lightweight_baseline_auc.png`
+- Figure 28 source image: `script/AE_model_train_and_detect_output/fig_noise_sensitivity_auc.png`
+
+Table 16 is populated from the non-neural-baseline review CSV that records the z-score, affine calibration, Ledoit-Wolf Mahalanobis, CORAL Mahalanobis, PCA-192, One-Class SVM, and Isolation Forest metrics. Table 17 is populated from the noise-sensitivity review CSV. These review CSV outputs are excluded from this public code package but are generated by the included review-check scripts after the restored preprocessed arrays and saved model outputs are available.
+
+Known exclusions remain unchanged: full FE model files, raw simulation outputs, saved checkpoints, generated figures, generated LaTeX tables, manuscript/review materials, and large intermediate arrays are not included in this repository.
+
+## Configuration And Random Seeds
+
+The main configuration is `script/TL_settings.jsonc`; field notes are in `script/TL_settings_doc.md`.
+
+Random seeds are fixed inside the experiment scripts and helper modules, primarily with seed `42` for model training/evaluation and the documented region seed `72048` for repair-region generation.
