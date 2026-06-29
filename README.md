@@ -64,6 +64,29 @@ python AE_gen_difflr_roc.py
 python AE_gen_baseline_3d_figures.py
 ```
 
+## Independent Relocation Test And Synthesis Outputs
+
+After the independent relocation-test outputs are restored under
+`script/AE_model_train_and_detect_output/Sensor_Offset/independent_offset_count4_medium/`, run:
+
+```powershell
+python script/review_checks/独立偏移测试复核.py
+```
+
+To rerun the fixed-configuration TL/OldModel/FromScratch comparison before writing the review CSV, use:
+
+```powershell
+python script/review_checks/独立偏移测试复核.py --rerun
+```
+
+Expected outputs:
+
+- Table 10 source CSV: `用于查看的中文版/独立偏移测试复核.csv`
+- Table 10 raw evidence folder: `用于查看的中文版/独立偏移测试raw/`
+- Raw metric source: `script/AE_model_train_and_detect_output/Sensor_Offset/independent_offset_count4_medium/detection_metrics_max.csv`
+
+This held-out relocation-sample test uses the fixed final configuration and the same bulk-carrier FE relocation mechanism. It is not a cross-vessel or real-ship generalization test.
+
 ## Synthesis Tables 15-17 And Figures 26-28
 
 After the experiment outputs are restored under `script/AE_model_train_and_detect_output/`, run:
