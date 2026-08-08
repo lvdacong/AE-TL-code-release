@@ -1,0 +1,36 @@
+{
+  "version": "final_core_configuration",
+  "scenario": "Sensor_Offset",
+  "pairs_ordered_by_difficulty": [
+    {
+      "n_o_step": 1,
+      "channel_idx": 9,
+      "origin_id": 3389,
+      "target_id": 3470
+    },
+    {
+      "n_o_step": 2,
+      "channel_idx": 171,
+      "origin_id": 103369,
+      "target_id": 108379
+    },
+    {
+      "n_o_step": 3,
+      "channel_idx": 55,
+      "origin_id": 21983,
+      "target_id": 4694
+    },
+    {
+      "n_o_step": 4,
+      "channel_idx": 99,
+      "origin_id": 64154,
+      "target_id": 22177
+    },
+    {
+      "n_o_step": 5,
+      "channel_idx": 132,
+      "origin_id": 76131,
+      "target_id": 76099
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+.DS_Store
+
+# External inputs and generated research artifacts
+external_data/
+data/
+outputs/
+script/*_output/
+script/**/*_output/
+script/*_output.json
+script/**/results/
+paper_TL/
+
+# Finite-element and model artifacts
+*.cae
+*.odb
+*.inp
+*.vtk
+*.vtu
+*.pth
+*.pt
+*.npz
+*.npy
+
+# Generated tables, logs, and figures
+*.csv
+*.tsv
+*.jsonl
+*.log
+*.png
+*.jpg
+*.jpeg
+*.pdf
+*.gif
+*.svg
