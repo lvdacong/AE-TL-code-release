@@ -43,13 +43,13 @@ Run commands from `script/` unless noted otherwise.
 
 ```powershell
 python A0_generate_repair_regions.py
-abaqus cae noGUI=AA_create_damage_cae.py
-abaqus cae noGUI=AB_generate_simulation_data.py
+python AA_create_damage_cae.py
+python AB_generate_simulation_data.py
 python AC_convert_and_extract.py
 python AD_preprocess_datasets.py
 ```
 
-The three Abaqus wrapper/helper files used by this stage are retained because they are part of the execution path.
+`AA_create_damage_cae.py` and `AB_generate_simulation_data.py` are host-Python wrappers. They load `TL_settings.jsonc` and invoke the three retained Abaqus helper scripts internally. Set `ABAQUS_CMD` in both wrappers to the launcher for your installed Abaqus version; the current default is `abq2025hf1.bat`.
 
 ### 2. Source model and three target shifts
 
